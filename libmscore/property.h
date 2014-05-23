@@ -43,7 +43,9 @@ enum P_ID {
       P_PITCH,
       P_TPC,
       P_HEAD_TYPE,
-
+      P_EVENT_PITCH,
+      P_ONTIME,
+      P_LEN,
       P_HEAD_GROUP,
       P_VELO_TYPE,
       P_VELO_OFFSET,
