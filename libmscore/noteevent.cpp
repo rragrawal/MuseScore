@@ -23,12 +23,21 @@ void NoteEvent::read(XmlReader& e)
       {
       while (e.readNextStartElement()) {
             const QStringRef& tag(e.name());
-            if (tag == "pitch")
-                  _pitch = e.readInt();
-            else if (tag == "ontime")
-                  _ontime = e.readInt();
-            else if (tag == "len")
-                  _len = e.readInt();
+          if (tag == "noteeventPitch"){
+                setProperty(P_PITCH, Ms::getProperty(P_EVENT_PITCH, e));
+
+             //       _pitch = e.readInt();
+            }
+            else if (tag == "ontime"){
+                setProperty(P_ONTIME, Ms::getProperty(P_ONTIME, e));
+
+                //    _ontime = e.readInt();
+            }
+            else if (tag == "len"){
+                setProperty(P_LEN, Ms::getProperty(P_LEN, e));
+
+                //     _len = e.readInt();
+            }
             else
                   e.unknown();
             }
@@ -41,9 +50,14 @@ void NoteEvent::read(XmlReader& e)
 void NoteEvent::write(Xml& xml) const
       {
       xml.stag("Event");
-      xml.tag("pitch", _pitch);
+      
+      writeProperty(xml, P_EVENT_PITCH);
+      writeProperty(xml, P_ONTIME);
+      writeProperty(xml, P_LEN);
+      
+     /* xml.tag("pitch", _pitch);
       xml.tag("ontime", _ontime);
-      xml.tag("len", _len);
+      xml.tag("len", _len); */
       xml.etag();
       }
 
