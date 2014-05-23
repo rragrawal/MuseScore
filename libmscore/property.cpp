@@ -44,6 +44,10 @@ static const PropertyData propertyList[] = {
       { P_TPC,                 false, "tpc",           T_INT },
       { P_HEAD_TYPE,           false, "headType",      T_INT },
 
+      { P_EVENT_PITCH,         false, "noteventPitch", T_INT },
+      { P_ONTIME,              false, "ontime",        T_INT },
+      { P_LEN,                 false, "len",           T_INT },
+      
       { P_HEAD_GROUP,          false, "head",          T_INT },
       { P_VELO_TYPE,           false, "veloType",      T_VALUE_TYPE },
       { P_VELO_OFFSET,         false, "velocity",      T_INT },
