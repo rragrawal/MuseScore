@@ -23,6 +23,10 @@ class XmlReader;
 //---------------------------------------------------------
 
 class NoteEvent {
+      Q_OBJECT
+      Q_PROPERTY(int pitch READ pitch WRITE undosetPitch)
+      Q_PROPERTY(int ontime READ ontime WRITE undosetOntime)
+      Q_PROPERTY(int len READ len WRITE undosetLen)
       int _pitch;   // relative pitch to note pitch
       int _ontime;  // 1/1000 of nominal note len
       int _len;     // 1/1000 of nominal note len
@@ -41,6 +45,9 @@ class NoteEvent {
       void setPitch(int v)   { _pitch = v; }
       void setOntime(int v)  { _ontime = v; }
       void setLen(int v)     { _len = v;    }
+      void undosetPitch(int v) { undoChangeProperty(P_EVENT_PITCH, v);}
+      void undosetOntime(int v){ undoChangeProperty(P_ONTIME, v);}
+      void undosetLen(int v)   { undoChangeProperty(P_LEN,v);}
       bool operator==(const NoteEvent&) const;
       };
 
