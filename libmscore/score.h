@@ -278,6 +278,8 @@ class Score : public QObject {
       //
       QList<Page*> _pages;          // pages are build from systems
       QList<System*> _systems;      // measures are akkumulated to systems
+      
+      double _swingratio;           // swing ratio
 
       // temp values used during doLayout:
       int curPage;
@@ -462,7 +464,12 @@ class Score : public QObject {
       void cmdAddOttava(OttavaType);
       void cmdAddStretch(qreal);
       void transpose(Note* n, Interval, bool useSharpsFlats);
-
+      
+      double getswingratio()                {  return _swingratio;  }
+      void setswingratio(double r)          {  _swingratio=r;       }
+      int *swingAdjustParams(Chord*,int,int);       
+      bool isSubdivided(ChordRest *);
+      
       bool appendScore(Score*);
 
       int pageIdx(Page* page) const { return _pages.indexOf(page); }
