@@ -332,6 +332,7 @@ void Score::init()
       _audio                  = 0;
       _showOmr                = false;
       _sigmap                 = 0;
+      _swingratio             = 0.3;
       _tempomap               = 0;
       _layoutMode             = LayoutPage;
       _noteHeadWidth          = 0.0;      // set in doLayout()
