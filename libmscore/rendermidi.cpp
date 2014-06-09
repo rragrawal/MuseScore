@@ -517,6 +517,38 @@ void Score::renderStaff(EventMap* events, Staff* staff)
                   }
             }
       }
+      
+int* Score::swingAdjustParams(Chord *chord, int gateTime, int ontime){     
+
+
+    int tick = chord->tick();
+    int div=MScore::division;
+    int swingunit=div/2;
+    int swingbeat=swingunit*2;
+    double swingratio=getswingratio();
+    int* swing_params;
+    swing_params=(int*)malloc(sizeof(int)*2);
+    ChordRest *ncr=nextChordRest(chord);
+    double ticks_duration=(double)chord->durationTicks();
+    double swingTickAdjust=ticks_duration*swingratio;
+    int swingActualAdjust=(int)(swingratio*1000.0);
+
+    if (tick%swingbeat==swingunit) {
+        if (!isSubdivided(chord)){          //swingAdjustOffbeat
+              ontime = ontime + swingActualAdjust;
+
+        }
+    }
+    else {                                  //swingAdjustOther
+          int endtick=tick+chord->durationTicks();
+          if (endtick%swingbeat == swingunit && (!isSubdivided(ncr))){
+              gateTime=gateTime + (swingActualAdjust/10);
+          }
+    }
+    swing_params[0]=gateTime;
+    swing_params[1]=ontime;
+    return swing_params;
+}
 
 //---------------------------------------------------------
 //   renderChord
@@ -684,6 +716,14 @@ static QList<NoteEventList> renderChord(Chord* chord, int gateTime, int ontime)
       return ell;
       }
 
+bool Score::isSubdivided(ChordRest *chord){
+      int div=MScore::division;
+      int swingunit=div/2;
+      ChordRest* prev = prevChordRest(chord);
+      if ( chord->durationTicks() < swingunit || prev->durationTicks() < swingunit ) return true;
+      else return false;
+}
+
 //---------------------------------------------------------
 //   createPlayEvents
 //    create default play events
@@ -694,6 +734,13 @@ void Score::createPlayEvents(Chord* chord)
       int gateTime = 100;
 
       int tick = chord->tick();
+      
+      int div = MScore::division;
+      int* swing_parameters;
+      double swingratio=getswingratio();
+    
+      swing_parameters=(int *)malloc(sizeof(int)*2);
+      
       Slur* slur = 0;
       for (auto sp : _spanner.map()) {
             if (sp.second->type() != Element::SLUR || sp.second->track() != chord->track())
@@ -746,6 +793,15 @@ void Score::createPlayEvents(Chord* chord)
                   on += graceDuration;
                   }
             }
+        // check for swing
+     
+      if(swingratio && chord->durationTicks()==240){
+
+          swing_parameters=swingAdjustParams(chord, gateTime, ontime);
+          gateTime=swing_parameters[0];
+          ontime=swing_parameters[1];
+      }
+
       //
       //    render normal (and articulated) chords
       //
