@@ -546,7 +546,7 @@ void Score::swingAdjustParams(Chord* chord, int* gateTime, int* ontime)
             }
       else {                                          //Given chord is not on the offbeat
             int endTick = tick + chord->durationTicks();
-            if (endTick%swingBeat == swingUnit && isSubdivided(ncr)) {
+            if (endTick%swingBeat == swingUnit && (!isSubdivided(ncr))) {
                   *gateTime = *gateTime + (swingActualAdjust/10);
                   }
             }
