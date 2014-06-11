@@ -470,7 +470,7 @@ class Score : public QObject {
 
       double getSwingRatio()                {  return _swingRatio;  }
       void setSwingRatio(double r)          {  _swingRatio=r;       }
-      int *swingAdjustParams(Chord*,int,int);
+      void swingAdjustParams(Chord*, int*, int*);
       bool isSubdivided(ChordRest*);
 
       bool appendScore(Score*);

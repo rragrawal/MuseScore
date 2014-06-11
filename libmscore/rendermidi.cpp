@@ -521,36 +521,35 @@ void Score::renderStaff(EventMap* events, Staff* staff)
                   }
             }
       }
-int* Score::swingAdjustParams(Chord* chord, int gateTime, int ontime)
-      {
-      int tick=chord->tick();
-      int div=MScore::division;
-      int swingUnit=div/2;
-      int swingBeat=swingUnit*2;
-      double swingRatio=getSwingRatio();
-      double ticksDuration=(double)chord->durationTicks();
-      double swingTickAdjust=ticksDuration*swingRatio;
-      int swingActualAdjust=(int)(swingRatio*1000.0);
 
-      int* swingParams;
-      swingParams=(int*)malloc(sizeof(int)*2);
+//--------------------------------------------------------
+//   swingAdjustParams
+//--------------------------------------------------------
+
+void Score::swingAdjustParams(Chord* chord, int* gateTime, int* ontime)
+      {
+      int tick = chord->tick();
+      int div = MScore::division;
+      int swingUnit = div/2;
+      int swingBeat = swingUnit*2;
+      double swingRatio = getSwingRatio();
+      double ticksDuration = (double)chord->durationTicks();
+      double swingTickAdjust = ticksDuration*swingRatio;
+      int swingActualAdjust = (int)(swingRatio*1000.0);
 
       ChordRest* ncr=nextChordRest(chord);
       //Check the position of the chord to apply changes accordingly
-      if (tick%swingBeat==swingUnit){                 //Given chord is on the offbeat
-            if (!isSubdivided(chord)){
-                  ontime = ontime + swingActualAdjust;
+      if (tick%swingBeat==swingUnit) {                 //Given chord is on the offbeat
+            if (!isSubdivided(chord)) {
+                  *ontime = *ontime + swingActualAdjust;
                   }
             }
       else {                                          //Given chord is not on the offbeat
             int endTick = tick + chord->durationTicks();
-            if (endTick%swingBeat == swingUnit && isSubdivided(ncr)){
-                  gateTime = gateTime + (swingActualAdjust/10);
+            if (endTick%swingBeat == swingUnit && isSubdivided(ncr)) {
+                  *gateTime = *gateTime + (swingActualAdjust/10);
                   }
             }
-      swingParams[0] = gateTime;
-      swingParams[1] = ontime;
-      return swingParams;
       }
 
 //---------------------------------------------------------
@@ -728,7 +727,7 @@ bool Score::isSubdivided(ChordRest* chord)
       int swingUnit = div/2;
       ChordRest* prev = prevChordRest(chord);
 
-      if ( chord->durationTicks() < swingUnit || prev->durationTicks() < swingUnit )
+      if (chord->durationTicks() < swingUnit || prev->durationTicks() < swingUnit)
             return true;
       else
             return false;
@@ -800,18 +799,15 @@ void Score::createPlayEvents(Chord* chord)
             }
       //    check if swing needs to be applied
       double swingRatio = getSwingRatio();
-      int* swingParams;
-      swingParams = (int*)malloc(sizeof(int)*2);
-      if (swingRatio && chord->durationTicks() == 240){
-            swingParams = swingAdjustParams(chord, gateTime, ontime);
-            gateTime=swingParams[0];
-            ontime=swingParams[1];
+
+      if (swingRatio && chord->durationTicks() == 240) {
+            swingAdjustParams(chord, &gateTime, &ontime);
             }
       //
       //    render normal (and articulated) chords
       //
       QList<NoteEventList> el = renderChord(chord, gateTime, ontime);
-      free(swingParams);
+ //     free(swingParams);
 
       if (chord->playEventType() == PlayEventType::InvalidUser) {
             chord->score()->undo(new ChangeEventList(chord, el));
