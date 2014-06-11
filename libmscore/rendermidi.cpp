@@ -727,11 +727,7 @@ bool Score::isSubdivided(ChordRest* chord)
       int swingUnit = div/2;
       ChordRest* prev = prevChordRest(chord);
 
-<<<<<<< HEAD
       if (chord->durationTicks() < swingUnit || prev->durationTicks() < swingUnit)
-=======
-      if ( chord->durationTicks() < swingUnit || prev->durationTicks() < swingUnit )
->>>>>>> e386bdb813234bd615aba91d8ce8e82d3ed80b52
             return true;
       else
             return false;
@@ -803,28 +799,13 @@ void Score::createPlayEvents(Chord* chord)
             }
       //    check if swing needs to be applied
       double swingRatio = getSwingRatio();
-<<<<<<< HEAD
-
       if (swingRatio && chord->durationTicks() == 240) {
             swingAdjustParams(chord, &gateTime, &ontime);
-=======
-      int* swingParams;
-      swingParams = (int*)malloc(sizeof(int)*2);
-      if (swingRatio && chord->durationTicks() == 240){
-            swingParams = swingAdjustParams(chord, gateTime, ontime);
-            gateTime=swingParams[0];
-            ontime=swingParams[1];
->>>>>>> e386bdb813234bd615aba91d8ce8e82d3ed80b52
             }
       //
       //    render normal (and articulated) chords
       //
       QList<NoteEventList> el = renderChord(chord, gateTime, ontime);
-<<<<<<< HEAD
- //     free(swingParams);
-=======
-      free(swingParams);
->>>>>>> e386bdb813234bd615aba91d8ce8e82d3ed80b52
 
       if (chord->playEventType() == PlayEventType::InvalidUser) {
             chord->score()->undo(new ChangeEventList(chord, el));
