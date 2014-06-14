@@ -526,7 +526,7 @@ void Score::renderStaff(EventMap* events, Staff* staff)
 //   swingAdjustParams
 //--------------------------------------------------------
 
-void Score::swingAdjustParams(Chord* chord, int* gateTime, int* ontime)
+void Score::swingAdjustParams(Chord* chord, int &gateTime, int &ontime)
       {
       int tick = chord->tick();
       int div = MScore::division;
@@ -536,18 +536,18 @@ void Score::swingAdjustParams(Chord* chord, int* gateTime, int* ontime)
       double ticksDuration = (double)chord->durationTicks();
       double swingTickAdjust = ticksDuration*swingRatio;
       int swingActualAdjust = (int)(swingRatio*1000.0);
-
-      ChordRest* ncr=nextChordRest(chord);
+      ChordRest* ncr = nextChordRest(chord);
+      
       //Check the position of the chord to apply changes accordingly
       if (tick%swingBeat==swingUnit) {                 //Given chord is on the offbeat
             if (!isSubdivided(chord)) {
-                  *ontime = *ontime + swingActualAdjust;
+                  ontime = ontime + swingActualAdjust;
                   }
             }
       else {                                          //Given chord is not on the offbeat
             int endTick = tick + chord->durationTicks();
             if (endTick%swingBeat == swingUnit && (!isSubdivided(ncr))) {
-                  *gateTime = *gateTime + (swingActualAdjust/10);
+                  gateTime = gateTime + (swingActualAdjust/10);
                   }
             }
       }
@@ -799,8 +799,8 @@ void Score::createPlayEvents(Chord* chord)
             }
       //    check if swing needs to be applied
       double swingRatio = getSwingRatio();
-      if (swingRatio && chord->durationTicks() == 240) {
-            swingAdjustParams(chord, &gateTime, &ontime);
+      if (swingRatio && (chord->durationTicks() == 240 || chord->durationTicks() == 720)) {
+            swingAdjustParams(chord, gateTime, ontime);
             }
       //
       //    render normal (and articulated) chords
