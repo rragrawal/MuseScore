@@ -800,7 +800,7 @@ void Score::createPlayEvents(Chord* chord)
             }
       //    check if swing needs to be applied
       double swingRatio = getSwingRatio();
-      if (swingRatio && (chord->durationTicks() == 240 || chord->durationTicks() == 720)) {
+      if (swingRatio) {
             swingAdjustParams(chord, gateTime, ontime);
             }
       //
