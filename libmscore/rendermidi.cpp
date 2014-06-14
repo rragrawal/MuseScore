@@ -806,7 +806,6 @@ void Score::createPlayEvents(Chord* chord)
       //
       //    render normal (and articulated) chords
       //
-      printf("playing chord with gatetime %d and ontime %d\n",gateTime,ontime);
       QList<NoteEventList> el = renderChord(chord, gateTime, ontime);
 
       if (chord->playEventType() == PlayEventType::InvalidUser) {
