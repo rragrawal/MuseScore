@@ -526,7 +526,7 @@ void Score::renderStaff(EventMap* events, Staff* staff)
 //   swingAdjustParams
 //--------------------------------------------------------
 
-void Score::swingAdjustParams(Chord* chord, int &gateTime, int &ontime)
+void Score::swingAdjustParams(Chord* chord, int& gateTime, int& ontime)
       {
       int tick = chord->tick();
       int div = MScore::division;
@@ -534,10 +534,11 @@ void Score::swingAdjustParams(Chord* chord, int &gateTime, int &ontime)
       int swingBeat = swingUnit*2;
       double swingRatio = getSwingRatio();
       double ticksDuration = (double)chord->durationTicks();
-      double swingTickAdjust = ticksDuration*swingRatio;
-      int swingActualAdjust = (int)(swingRatio*1000.0);
+      double swingTickAdjust = div * swingRatio;
+     // int swingActualAdjust = (int)(swingRatio*1000.0);
+      double swingActualAdjust = (swingTickAdjust/ticksDuration)*1000.0;
       ChordRest* ncr = nextChordRest(chord);
-      
+
       //Check the position of the chord to apply changes accordingly
       if (tick%swingBeat==swingUnit) {                 //Given chord is on the offbeat
             if (!isSubdivided(chord)) {
@@ -805,6 +806,7 @@ void Score::createPlayEvents(Chord* chord)
       //
       //    render normal (and articulated) chords
       //
+      printf("playing chord with gatetime %d and ontime %d\n",gateTime,ontime);
       QList<NoteEventList> el = renderChord(chord, gateTime, ontime);
 
       if (chord->playEventType() == PlayEventType::InvalidUser) {
