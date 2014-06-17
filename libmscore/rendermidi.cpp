@@ -536,21 +536,19 @@ void Score::swingAdjustParams(Chord* chord, int& gateTime, int& ontime)
       double ticksDuration = (double)chord->durationTicks();
       double swingTickAdjust = div * swingRatio;
      // int swingActualAdjust = (int)(swingRatio*1000.0);
-      double swingActualAdjust = (swingTickAdjust/ticksDuration)*1000.0;
+      double swingActualAdjust = (swingTickAdjust/ticksDuration) * 1000.0;
       ChordRest* ncr = nextChordRest(chord);
 
       //Check the position of the chord to apply changes accordingly
-      if (tick%swingBeat==swingUnit) {                 //Given chord is on the offbeat
+      if (tick%swingBeat == swingUnit) {                 //Given chord is on the offbeat
             if (!isSubdivided(chord)) {
                   ontime = ontime + swingActualAdjust;
                   }
             }
-      else {                                          //Given chord is not on the offbeat
             int endTick = tick + chord->durationTicks();
             if (endTick%swingBeat == swingUnit && (!isSubdivided(ncr))) {
                   gateTime = gateTime + (swingActualAdjust/10);
                   }
-            }
       }
 
 //---------------------------------------------------------
