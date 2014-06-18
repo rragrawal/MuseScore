@@ -560,6 +560,34 @@ void Score::renderStaff(EventMap* events, Staff* staff)
                   }
             }
       }
+//--------------------------------------------------------
+// swingAdjustParams
+//--------------------------------------------------------
+
+void Score::swingAdjustParams(Chord* chord, int& gateTime, int& ontime)
+      {
+      int tick = chord->tick();
+      int div = MScore::division;
+      int swingUnit = div/2;
+      int swingBeat = swingUnit*2;
+      double swingRatio = getSwingRatio();
+      double ticksDuration = (double)chord->durationTicks();
+      double swingTickAdjust = div * swingRatio;
+     // int swingActualAdjust = (int)(swingRatio*1000.0);
+      double swingActualAdjust = (swingTickAdjust/ticksDuration) * 1000.0;
+      ChordRest* ncr = nextChordRest(chord);
+
+      //Check the position of the chord to apply changes accordingly
+      if (tick%swingBeat == swingUnit) { //Given chord is on the offbeat
+            if (!isSubdivided(chord)) {
+                  ontime = ontime + swingActualAdjust;
+                  }
+            }
+            int endTick = tick + chord->durationTicks();
+            if (endTick%swingBeat == swingUnit && (!isSubdivided(ncr))) {
+                  gateTime = gateTime + (swingActualAdjust/10);
+                  }
+      }
 
 //---------------------------------------------------------
 //   renderChord
@@ -727,6 +755,23 @@ static QList<NoteEventList> renderChord(Chord* chord, int gateTime, int ontime)
       return ell;
       }
 
+//-------------------------------------------------------
+//   isSubdivided
+//   Check for subdivided beat
+//-------------------------------------------------------
+
+bool Score::isSubdivided(ChordRest* chord)
+      {
+      int div = MScore::division;
+      int swingUnit = div/2;
+      ChordRest* prev = prevChordRest(chord);
+
+      if (chord->durationTicks() < swingUnit || prev->durationTicks() < swingUnit)
+            return true;
+      else
+            return false;
+      }
+
 //---------------------------------------------------------
 //   createPlayEvents
 //    create default play events
@@ -735,7 +780,7 @@ static QList<NoteEventList> renderChord(Chord* chord, int gateTime, int ontime)
 void Score::createPlayEvents(Chord* chord)
       {
       int gateTime = 100;
-
+      int div = MScore::division;
       int tick = chord->tick();
       Slur* slur = 0;
       for (auto sp : _spanner.map()) {
@@ -789,6 +834,13 @@ void Score::createPlayEvents(Chord* chord)
                   on += graceDuration;
                   }
             }
+
+      // check if swing needs to be applied
+      double swingRatio = getSwingRatio();
+      if (swingRatio) {
+            swingAdjustParams(chord, gateTime, ontime);
+            }
+
       //
       //    render normal (and articulated) chords
       //

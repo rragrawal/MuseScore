@@ -277,6 +277,8 @@ class Score : public QObject {
       ScoreFont* _scoreFont;
       int _pageNumberOffset;        ///< Offset for page numbers.
 
+      double _swingRatio; 	    // swing ratio
+ 
       MeasureBaseList _measures;          // here are the notes
       SpannerMap _spanner;
       //
@@ -473,6 +475,11 @@ class Score : public QObject {
       void cmdAddStretch(qreal);
       void transpose(Note* n, Interval, bool useSharpsFlats);
       void transposeKeys(int staffStart, int staffEnd, int tickStart, int tickEnd, const Interval&);
+
+      double getSwingRatio() { return _swingRatio; }
+      void setSwingRatio(double r) { _swingRatio=r; }
+      void swingAdjustParams(Chord*, int&, int&);
+      bool isSubdivided(ChordRest*);
 
       bool appendScore(Score*);
 
