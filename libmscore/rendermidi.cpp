@@ -571,7 +571,7 @@ void Score::swingAdjustParams(Chord* chord, int& gateTime, int& ontime)
       int swingUnit = div/2;
       int swingBeat = swingUnit*2;
       double swingRatio = getSwingRatio();
-      double ticksDuration = (double)chord->durationTicks();
+      double ticksDuration = (double)chord->actualTicks();
       double swingTickAdjust = div * swingRatio;
      // int swingActualAdjust = (int)(swingRatio*1000.0);
       double swingActualAdjust = (swingTickAdjust/ticksDuration) * 1000.0;
@@ -583,7 +583,7 @@ void Score::swingAdjustParams(Chord* chord, int& gateTime, int& ontime)
                   ontime = ontime + swingActualAdjust;
                   }
             }
-            int endTick = tick + chord->durationTicks();
+            int endTick = tick + ticksDuration;
             if (endTick%swingBeat == swingUnit && (!isSubdivided(ncr))) {
                   gateTime = gateTime + (swingActualAdjust/10);
                   }
@@ -766,7 +766,7 @@ bool Score::isSubdivided(ChordRest* chord)
       int swingUnit = div/2;
       ChordRest* prev = prevChordRest(chord);
 
-      if (chord->durationTicks() < swingUnit || prev->durationTicks() < swingUnit)
+      if (chord->actualTicks() < swingUnit || prev->actualTicks() < swingUnit)
             return true;
       else
             return false;
