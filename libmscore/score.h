@@ -475,8 +475,6 @@ class Score : public QObject {
       void transpose(Note* n, Interval, bool useSharpsFlats);
       void transposeKeys(int staffStart, int staffEnd, int tickStart, int tickEnd, const Interval&);
 
-     // double getSwingRatio() { return _swingRatio; }
-     // void setSwingRatio(double r) { _swingRatio=r; }
       void swingAdjustParams(Chord*, int&, int&);
       void setSwingStyle();
       bool isSubdivided(ChordRest*);

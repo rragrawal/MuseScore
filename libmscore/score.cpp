@@ -321,7 +321,6 @@ void Score::init()
       _showOmr                = false;
       _sigmap                 = 0;
       _tempomap               = 0;
-   //   _swingRatio 	          = ((_style.value(StyleIdx::swingRatio).toDouble())-50)/10.0;
       _layoutMode             = LayoutMode::PAGE;
       _noteHeadWidth          = 0.0;      // set in doLayout()
       }

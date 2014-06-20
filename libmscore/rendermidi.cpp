@@ -759,6 +759,8 @@ static QList<NoteEventList> renderChord(Chord* chord, int gateTime, int ontime)
 
 bool Score::isSubdivided(ChordRest* chord)
       {
+      int div = MScore::division;
+      int swingUnit = div/2;
       ChordRest* prev = prevChordRest(chord);
 
       if (chord->actualTicks() < swingUnit || prev->actualTicks() < swingUnit)
