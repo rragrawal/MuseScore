@@ -159,6 +159,10 @@ EditStyle::EditStyle(Score* s, QWidget* parent)
       connect(chordsStandard, SIGNAL(toggled(bool)), SLOT(setChordStyle(bool)));
       connect(chordsJazz, SIGNAL(toggled(bool)), SLOT(setChordStyle(bool)));
       connect(chordsCustom, SIGNAL(toggled(bool)), SLOT(setChordStyle(bool)));
+      connect(SwingON,SIGNAL(toggled(bool)),SLOT(setSwingParams(bool)));
+      connect(swingEighth, SIGNAL(toggled(bool)),SLOT(setSwingParams(bool)));
+      connect(swingSixteenth, SIGNAL(toggled(bool)),SLOT(setSwingParams(bool)));
+
 
       connect(hideEmptyStaves, SIGNAL(clicked(bool)), dontHideStavesInFirstSystem, SLOT(setEnabled(bool)));
 
@@ -334,7 +338,10 @@ void EditStyle::getValues()
       lstyle.set(StyleIdx::hideEmptyStaves,         hideEmptyStaves->isChecked());
       lstyle.set(StyleIdx::dontHideStavesInFirstSystem, dontHideStavesInFirstSystem->isChecked());
       lstyle.set(StyleIdx::hideInstrumentNameIfOneInstrument, hideInstrumentNameIfOneInstrument->isChecked());
-
+      lstyle.set(StyleIdx::swingRatio,               swingRatio->value());
+      lstyle.set(StyleIdx::swingOn,                  SwingON->isChecked());
+      lstyle.set(StyleIdx::swingEighth,              swingEighth->isChecked());
+      lstyle.set(StyleIdx::swingSixteenth,           swingSixteenth->isChecked());
       lstyle.set(StyleIdx::accidentalNoteDistance,  Spatium(accidentalNoteDistance->value()));
       lstyle.set(StyleIdx::accidentalDistance,      Spatium(accidentalDistance->value()));
       lstyle.set(StyleIdx::dotMag,                  dotMag->value() * 0.01);
@@ -597,6 +604,11 @@ void EditStyle::setValues()
       dontHideStavesInFirstSystem->setEnabled(hideEmptyStaves->isChecked());
       hideInstrumentNameIfOneInstrument->setChecked(lstyle.value(StyleIdx::hideInstrumentNameIfOneInstrument).toBool());
 
+      swingRatio->setValue(lstyle.value(StyleIdx::swingRatio).toInt());
+      SwingON->setChecked(lstyle.value(StyleIdx::swingOn).toBool());
+      swingEighth->setChecked(lstyle.value(StyleIdx::swingEighth).toBool());
+      swingSixteenth->setChecked(lstyle.value(StyleIdx::swingSixteenth).toBool());
+
       accidentalNoteDistance->setValue(lstyle.value(StyleIdx::accidentalNoteDistance).toDouble());
       accidentalDistance->setValue(lstyle.value(StyleIdx::accidentalDistance).toDouble());
       dotMag->setValue(lstyle.value(StyleIdx::dotMag).toDouble() * 100.0);
@@ -748,6 +760,32 @@ void EditStyle::selectChordDescriptionFile()
       if (fn.isEmpty())
             return;
       chordDescriptionFile->setText(fn);
+      }
+
+void EditStyle::setSwingParams(bool checked)
+      {
+     // if (!checked)
+     //      return;
+      if (SwingON->isChecked()) {
+          lstyle.set(StyleIdx::swingOn, true);
+          if(swingEighth->isChecked()){
+                      lstyle.set(StyleIdx::swingEighth, true);
+                      swingSixteenth->setChecked(false);
+            }
+          else if(swingSixteenth->isChecked()){
+                      lstyle.set(StyleIdx::swingSixteenth, true);
+                      swingEighth->setChecked(false);
+          }
+          swingEighth->setEnabled(true);
+          swingSixteenth->setEnabled(true);
+          swingRatio->setEnabled(true);
+      }
+      else {
+            swingEighth->setChecked(true);
+            swingEighth->setEnabled(false);
+            swingSixteenth->setEnabled(false);
+            swingRatio->setEnabled(false);
+      }
       }
 
 //---------------------------------------------------------

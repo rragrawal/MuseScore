@@ -568,9 +568,6 @@ void Score::swingAdjustParams(Chord* chord, int& gateTime, int& ontime)
       {
       int tick = chord->tick();
       int div = MScore::division;
-      int swingUnit = div/2;
-      int swingBeat = swingUnit*2;
-      double swingRatio = getSwingRatio();
       double ticksDuration = (double)chord->actualTicks();
       double swingTickAdjust = div * swingRatio;
      // int swingActualAdjust = (int)(swingRatio*1000.0);
@@ -762,8 +759,6 @@ static QList<NoteEventList> renderChord(Chord* chord, int gateTime, int ontime)
 
 bool Score::isSubdivided(ChordRest* chord)
       {
-      int div = MScore::division;
-      int swingUnit = div/2;
       ChordRest* prev = prevChordRest(chord);
 
       if (chord->actualTicks() < swingUnit || prev->actualTicks() < swingUnit)
@@ -780,7 +775,6 @@ bool Score::isSubdivided(ChordRest* chord)
 void Score::createPlayEvents(Chord* chord)
       {
       int gateTime = 100;
-      int div = MScore::division;
       int tick = chord->tick();
       Slur* slur = 0;
       for (auto sp : _spanner.map()) {
@@ -834,10 +828,9 @@ void Score::createPlayEvents(Chord* chord)
                   on += graceDuration;
                   }
             }
-
       // check if swing needs to be applied
-      double swingRatio = getSwingRatio();
-      if (swingRatio) {
+
+      if (swingON) {
             swingAdjustParams(chord, gateTime, ontime);
             }
 
@@ -855,10 +848,22 @@ void Score::createPlayEvents(Chord* chord)
             }
       // dont change event list if type is PlayEventType::User
       }
+void Score::setSwingStyle()
+      {
+      swingRatio = (styleD(StyleIdx::swingRatio)-50)/100.0;
+      swingON = styleB(StyleIdx::swingOn);
+      swingEighth = styleB(StyleIdx::swingEighth);
+      swingSixteenth = styleB(StyleIdx::swingSixteenth);
+      int div = MScore::division;
+      if(swingEighth) swingUnit = div/2;
+      else if(swingSixteenth) swingUnit = div/4;
+      swingBeat = swingUnit*2;
+      }
 
 void Score::createPlayEvents()
       {
       int etrack = nstaves() * VOICES;
+      setSwingStyle();
       for (int track = 0; track < etrack; ++track) {
             for (Measure* m = firstMeasure(); m; m = m->nextMeasure()) {
                   // skip linked staves, except primary

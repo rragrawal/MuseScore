@@ -292,6 +292,11 @@ enum class StyleIdx : unsigned char {
       SlurDottedWidth,
       MinTieLength,
 
+      swingOn,
+      swingRatio,
+      swingEighth,
+      swingSixteenth,
+
       SectionPause,
       MusicalSymbolFont,
 

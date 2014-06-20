@@ -172,7 +172,7 @@
    <item row="0" column="1">
     <widget class="QStackedWidget" name="pageStack">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="Page1">
       <layout class="QVBoxLayout" name="verticalLayout_20">
@@ -184,167 +184,309 @@
          <property name="title">
           <string>Score</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="QLabel" name="label_63">
-              <property name="text">
-               <string>Musical symbols font: </string>
-              </property>
-              <property name="buddy">
-               <cstring>musicalSymbolFont</cstring>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="musicalSymbolFont">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <item>
+         <widget class="QCheckBox" name="concertPitch">
+          <property name="geometry">
+           <rect>
+            <x>17</x>
+            <y>60</y>
+            <width>188</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Display in concert pitch</string>
+          </property>
+         </widget>
+         <widget class="QGroupBox" name="multiMeasureRests">
+          <property name="geometry">
+           <rect>
+            <x>17</x>
+            <y>88</y>
+            <width>376</width>
+            <height>104</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Create multimeasure rests</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <layout class="QFormLayout" name="formLayout_3">
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_16">
                <property name="text">
-                <string notr="true">Emmentaler</string>
+                <string>Minimum width of measure:</string>
                </property>
-              </item>
-              <item>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="minMeasureWidth">
+               <property name="suffix">
+                <string>sp</string>
+               </property>
+               <property name="minimum">
+                <double>2.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>4.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_15">
                <property name="text">
-                <string notr="true">Gonville</string>
+                <string>Minimum number of empty measures:</string>
                </property>
-              </item>
-              <item>
-               <property name="text">
-                <string notr="true">Bravura</string>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QSpinBox" name="minEmptyMeasures">
+               <property name="minimum">
+                <number>1</number>
                </property>
-              </item>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="concertPitch">
-            <property name="text">
-             <string>Display in concert pitch</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QGroupBox" name="multiMeasureRests">
-            <property name="title">
-             <string>Create multimeasure rests</string>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <item>
-              <layout class="QFormLayout" name="formLayout_3">
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_16">
-                 <property name="text">
-                  <string>Minimum width of measure:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QDoubleSpinBox" name="minMeasureWidth">
-                 <property name="suffix">
-                  <string>sp</string>
-                 </property>
-                 <property name="minimum">
-                  <double>2.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>4.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_15">
-                 <property name="text">
-                  <string>Minimum number of empty measures:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QSpinBox" name="minEmptyMeasures">
-                 <property name="minimum">
-                  <number>1</number>
-                 </property>
-                 <property name="value">
-                  <number>2</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+               <property name="value">
+                <number>2</number>
+               </property>
+              </widget>
              </item>
             </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="hideEmptyStaves">
-            <property name="text">
-             <string>Hide empty staves</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="dontHideStavesInFirstSystem">
-            <property name="text">
-             <string>Don't hide empty staves in first system</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="crossMeasureValues">
-            <property name="text">
-             <string>Display note values across measure bar (EXPERIMENTAL, early music only!)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="hideInstrumentNameIfOneInstrument">
-            <property name="text">
-             <string>Hide instrument name if there is only 1 instrument</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QCheckBox" name="hideEmptyStaves">
+          <property name="geometry">
+           <rect>
+            <x>17</x>
+            <y>289</y>
+            <width>156</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Hide empty staves</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="dontHideStavesInFirstSystem">
+          <property name="geometry">
+           <rect>
+            <x>17</x>
+            <y>317</y>
+            <width>294</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Don't hide empty staves in first system</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="crossMeasureValues">
+          <property name="geometry">
+           <rect>
+            <x>17</x>
+            <y>345</y>
+            <width>536</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Display note values across measure bar (EXPERIMENTAL, early music only!)</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="hideInstrumentNameIfOneInstrument">
+          <property name="geometry">
+           <rect>
+            <x>17</x>
+            <y>373</y>
+            <width>373</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Hide instrument name if there is only 1 instrument</string>
+          </property>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>17</x>
+            <y>25</y>
+            <width>421</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QLabel" name="label_63">
+             <property name="text">
+              <string>Musical symbols font: </string>
+             </property>
+             <property name="buddy">
+              <cstring>musicalSymbolFont</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="musicalSymbolFont">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <item>
+              <property name="text">
+               <string notr="true">Emmentaler</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">Gonville</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">Bravura</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>17</x>
+            <y>401</y>
+            <width>370</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <item>
+            <widget class="QRadioButton" name="SwingON">
+             <property name="whatsThis">
+              <string>Checking this will apply swing to your score</string>
+             </property>
+             <property name="text">
+              <string>Swing ON</string>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+             <property name="autoRepeat">
+              <bool>false</bool>
+             </property>
+             <property name="autoExclusive">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="swingEighth">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="whatsThis">
+              <string>Swing will be applied at eighth note level</string>
+             </property>
+             <property name="text">
+              <string>Swing Eighth</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+             <property name="autoExclusive">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="swingSixteenth">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="whatsThis">
+              <string>Swing will be applied at sixteenth note level</string>
+             </property>
+             <property name="text">
+              <string>Swing Sixteenth</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="autoExclusive">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>14</x>
+            <y>430</y>
+            <width>381</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="QLabel" name="SwingSelectLabel">
+             <property name="text">
+              <string>Select swing ratio</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="swingRatio">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="whatsThis">
+              <string>Set the swing ratio. 50 == No swing</string>
+             </property>
+             <property name="minimum">
+              <number>50</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <zorder>layoutWidget</zorder>
+         <zorder>layoutWidget</zorder>
+         <zorder>layoutWidget</zorder>
+         <zorder>concertPitch</zorder>
+         <zorder>multiMeasureRests</zorder>
+         <zorder>hideEmptyStaves</zorder>
+         <zorder>dontHideStavesInFirstSystem</zorder>
+         <zorder>crossMeasureValues</zorder>
+         <zorder>hideInstrumentNameIfOneInstrument</zorder>
         </widget>
        </item>
       </layout>

@@ -51,6 +51,8 @@ class EditStyle : public QDialog, private Ui::EditStyleBase {
    private slots:
       void selectChordDescriptionFile();
       void setChordStyle(bool);
+      void setSwingParams(bool);
+
       void toggleHeaderOddEven(bool);
       void toggleFooterOddEven(bool);
       void buttonClicked(QAbstractButton*);
