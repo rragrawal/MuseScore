@@ -833,8 +833,15 @@ void Score::createPlayEvents(Chord* chord)
       // Check if swing needs to be applied
       int swingUnit = styleI(StyleIdx::swingUnit);
       if (swingUnit) {
+            Measure* measure = firstMeasure();
+            QVariant nominal = measure->getProperty(P_ID::TIMESIG_NOMINAL);
+            QVariant actual = measure->getProperty(P_ID::TIMESIG_ACTUAL);
             int swingRatio = styleI(StyleIdx::swingRatio);
-            swingAdjustParams(chord, gateTime, ontime, swingUnit, swingRatio);
+            if((nominal!=actual) && (chord->measure() == firstMeasure())) {
+                  swingAdjustParams(chord, gateTime, ontime, swingUnit,100-swingRatio);
+            }
+          else
+                swingAdjustParams(chord, gateTime, ontime, swingUnit, swingRatio);
       }
       //
       //    render normal (and articulated) chords
