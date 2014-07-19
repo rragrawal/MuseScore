@@ -838,7 +838,7 @@ void Score::createPlayEvents(Chord* chord)
             QVariant actual = measure->getProperty(P_ID::TIMESIG_ACTUAL);
             int swingRatio = styleI(StyleIdx::swingRatio);
             if((nominal!=actual) && (chord->measure() == firstMeasure())) {
-                  swingAdjustParams(chord, gateTime, ontime, swingUnit,100-swingRatio);
+                  swingAdjustParams(chord, gateTime, ontime, swingUnit, 100-swingRatio);
             }
           else
                 swingAdjustParams(chord, gateTime, ontime, swingUnit, swingRatio);
