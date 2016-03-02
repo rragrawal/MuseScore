@@ -92,7 +92,11 @@ PlayPanel::~PlayPanel()
 
 void PlayPanel::relTempoChanged(double d, int)
       {
-      double relTempo = d * .01;
+      int roundedRel = (int) d;
+      if ((roundedRel % 5)) {
+            roundedRel = roundedRel - roundedRel % 5;
+            }
+      double relTempo = roundedRel * .01;
       emit relTempoChanged(relTempo);
 
       setTempo(seq->curTempo() * relTempo);
