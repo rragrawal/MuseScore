@@ -27,7 +27,7 @@ class RangeAnnotation : public Text {
 
       RangeAnnotation(Score*  = 0);
       virtual RangeAnnotation* clone() const override         { return new RangeAnnotation(*this); }
-      virtual Element::Type type() const                 { return Element::Type::ANNOTATION; }
+      virtual Element::Type type() const                 { return Element::Type::TEXT; }
 
       Score* score() const             { return _score; }
 //      void drawRectangle(Segment* startSegment, Segment* endSegment, int staffStart, int staffEnd);
@@ -42,6 +42,9 @@ class RangeAnnotation : public Text {
       int staffEnd() const              { return _staffEnd;    }
       void setStaffStart(int v)         { _staffStart = v;  }
       void setStaffEnd(int v)           { _staffEnd = v;    }
+      virtual void write(Xml& xml) const;
+      virtual void read(XmlReader&);
+
       };
 
 

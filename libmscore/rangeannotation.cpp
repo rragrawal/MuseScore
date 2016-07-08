@@ -36,17 +36,14 @@ namespace Ms {
 //---------------------------------------------------------
 
 RangeAnnotation::RangeAnnotation(Score* s)
-  : Text(s)
+      : Text(s)
       {
-      setFlags(ElementFlag::MOVABLE | ElementFlag::SELECTABLE | ElementFlag::HAS_TAG);
+      setFlags(ElementFlag::MOVABLE | ElementFlag::SELECTABLE | ElementFlag::ON_STAFF | ElementFlag::HAS_TAG);
       _score         = s;
       _startSegment  = 0;
       _endSegment    = 0;
       _staffStart    = 0;
       _staffEnd      = 0;
-  /*    QRectF r1(100, 300, 11, 16);
-      QPainter painter(this);
-      painter.drawRoundedRect(r1, 20.0, 15.0);*/
       }
 int RangeAnnotation::tickStart() const
       {
@@ -72,6 +69,45 @@ void RangeAnnotation::setRange(Segment* startSegment, Segment* endSegment, int s
       _endSegment    = endSegment;
       _staffStart    = staffStart;
       _staffEnd      = staffEnd;
+      }
+//---------------------------------------------------------
+//   write
+//---------------------------------------------------------
+
+void RangeAnnotation::write(Xml& xml) const
+      {
+      if (!xml.canWrite(this))
+            return;
+      xml.stag("RangeAnnotation");
+      qDebug() << "Inside range annotation write,startTick is " << int(tickStart());
+      xml.tag("startTick",int(tickStart()));
+      xml.tag("endTick", int(tickEnd()));
+      xml.tag("startStaff", int(staffStart()));
+      xml.tag("endStaff", int(staffEnd()));
+      Text::writeProperties(xml);
+      xml.etag();
+      }
+
+//---------------------------------------------------------
+//   read
+//---------------------------------------------------------
+
+void RangeAnnotation::read(XmlReader& e)
+      {
+      while (e.readNextStartElement()) {
+            const QStringRef& tag(e.name());
+            if (tag == "startTick")
+                  setStartSegment(_score->tick2segment(e.readInt()));
+            else if (tag == "endTick")
+                  setEndSegment(_score->tick2segment(e.readInt()));
+            else if (tag == "startStaff")
+                  setStaffStart(e.readInt());
+            else if (tag == "endStaff")
+                  setStaffEnd(e.readInt());
+            else if (!Text::readProperties(e))
+                  e.unknown();
+            _score->addRangeAnnotation(this);
+            }
       }
 }
 

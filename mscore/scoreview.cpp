@@ -2045,8 +2045,8 @@ void ScoreView::paint(const QRect& r, QPainter& p)
             p.setPen(pen);
             double _spatium = score()->spatium();
             double x2      = rss->pagePos().x() - _spatium;
-            int staffStart = 0;
-            int staffEnd   = 1;
+            int staffStart = rangeAnn->staffStart();
+            int staffEnd   = rangeAnn->staffEnd();
 
             System* system2 = rss->measure()->system();
             QPointF pt      = rss->pagePos();
@@ -5555,7 +5555,7 @@ void ScoreView::cmdAddAnnotation()
             sm->postEvent(new CommandEvent("note-input"));
 
       _score->startCmd();
-        ChordRest* cr = _score->getSelectedChordRest();
+      ChordRest* cr = _score->getSelectedChordRest();
       if (!cr)
             return;
 
@@ -5588,22 +5588,33 @@ void ScoreView::cmdAddRangeAnnotation()
       _score->startCmd();
       Selection selection = _score->selection();
       if (selection.isSingle()) {
-      ChordRest* cr = _score->getSelectedChordRest();
-      if (!cr)
-            return;
-      RangeAnnotation* range = new RangeAnnotation();
-      range->setRange(cr->segment(), _score->tick2segment(cr->segment()->tick() + 480), selection.staffStart(), selection.staffEnd());
-      _score->addRangeAnnotation(range);
-      _score->endCmd();
-      }
+            ChordRest* cr = _score->getSelectedChordRest();
+            if (!cr)
+                  return;
+            RangeAnnotation* range = new RangeAnnotation();
+            range->setTrack(cr->track());
+            range->setParent(cr->segment());
+            range->setRange(cr->segment(), _score->tick2segment(cr->segment()->tick() + 480), selection.staffStart(), selection.staffEnd());
+            _score->addRangeAnnotation(range);
+            if(range)
+                  _score->undoAddElement(range);
+                  _score->select(range, SelectType::SINGLE, 0);
+            _score->endCmd();
+            }
       else if (selection.isRange()) {
+            ChordRest* cr = selection.activeCR();
             RangeAnnotation* range = new RangeAnnotation();
             Segment* startSegment = selection.startSegment();
             Segment* endSegment = selection.endSegment();
             int staffStart = selection.staffStart();
             int staffEnd = selection.staffEnd();
+            range->setTrack(selection.activeTrack());
+            range->setParent(selection.startSegment());
             range->setRange(startSegment, endSegment, staffStart, staffEnd);
-            _score->addRangeAnnotation(range);
+            _score->addRangeAnnotation(range);          
+            if(range)
+                  _score->undoAddElement(range);
+                  _score->select(range, SelectType::RANGE, 0);
             _score->endCmd();
         }
       }
