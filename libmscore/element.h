@@ -40,6 +40,7 @@ class Segment;
 class TextStyle;
 class Element;
 class Annotation;
+class RangeAnnotation;
 class BarLine;
 class Articulation;
 class Marker;

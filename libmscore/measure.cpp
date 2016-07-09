@@ -1990,6 +1990,7 @@ void Measure::read(XmlReader& e, int staffIdx)
                || tag == "Tempo"
                || tag == "StaffText"
                || tag == "Annotation"
+               || tag == "RangeAnnotation"
                || tag == "RehearsalMark"
                || tag == "InstrumentChange"
                || tag == "StaffState"

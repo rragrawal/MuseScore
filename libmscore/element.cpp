@@ -20,6 +20,7 @@
 #include "ambitus.h"
 #include "arpeggio.h"
 #include "textannotation.h"
+#include "rangeannotation.h"
 #include "articulation.h"
 #include "bagpembell.h"
 #include "barline.h"
@@ -1271,7 +1272,7 @@ Element* Element::create(Element::Type type, Score* score)
             case Element::Type::BAR_LINE:          return new BarLine(score);
             case Element::Type::SYSTEM_DIVIDER:    return new SystemDivider(score);
             case Element::Type::ARPEGGIO:          return new Arpeggio(score);
-            case Element::Type::ANNOTATION:        return new TextAnnotation(score);
+            case Element::Type::ANNOTATION:        return new RangeAnnotation(score);
             case Element::Type::BREATH:            return new Breath(score);
             case Element::Type::GLISSANDO:         return new Glissando(score);
             case Element::Type::BRACKET:           return new Bracket(score);
