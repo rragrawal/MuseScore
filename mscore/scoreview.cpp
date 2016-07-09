@@ -5591,7 +5591,7 @@ void ScoreView::cmdAddRangeAnnotation()
             ChordRest* cr = _score->getSelectedChordRest();
             if (!cr)
                   return;
-            RangeAnnotation* range = new RangeAnnotation();
+            RangeAnnotation* range = new RangeAnnotation(_score);
             range->setTrack(cr->track());
             range->setParent(cr->segment());
             range->setRange(cr->segment(), _score->tick2segment(cr->segment()->tick() + 480), selection.staffStart(), selection.staffEnd());
@@ -5603,7 +5603,7 @@ void ScoreView::cmdAddRangeAnnotation()
             }
       else if (selection.isRange()) {
             ChordRest* cr = selection.activeCR();
-            RangeAnnotation* range = new RangeAnnotation();
+            RangeAnnotation* range = new RangeAnnotation(_score);
             Segment* startSegment = selection.startSegment();
             Segment* endSegment = selection.endSegment();
             int staffStart = selection.staffStart();

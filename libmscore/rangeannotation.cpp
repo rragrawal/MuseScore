@@ -78,8 +78,7 @@ void RangeAnnotation::write(Xml& xml) const
       {
       if (!xml.canWrite(this))
             return;
-      xml.stag("RangeAnnotation");
-      qDebug() << "Inside range annotation write,startTick is " << int(tickStart());
+      xml.stag("Annotation");
       xml.tag("startTick",int(tickStart()));
       xml.tag("endTick", int(tickEnd()));
       xml.tag("startStaff", int(staffStart()));
@@ -106,8 +105,8 @@ void RangeAnnotation::read(XmlReader& e)
                   setStaffEnd(e.readInt());
             else if (!Text::readProperties(e))
                   e.unknown();
-            _score->addRangeAnnotation(this);
             }
+       _score->addRangeAnnotation(this);
       }
 }
 
